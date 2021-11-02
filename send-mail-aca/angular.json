@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "send-mail": {
+      "projectType": "library",
+      "root": "projects/send-mail",
+      "sourceRoot": "projects/send-mail/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/send-mail/tsconfig.lib.json",
+            "project": "projects/send-mail/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/send-mail/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/send-mail/src/test.ts",
+            "tsConfig": "projects/send-mail/tsconfig.spec.json",
+            "karmaConfig": "projects/send-mail/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/send-mail/tsconfig.lib.json",
+              "projects/send-mail/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "send-mail"
+}

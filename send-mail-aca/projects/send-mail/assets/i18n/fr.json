@@ -1,0 +1,29 @@
+{
+  "APP": {
+    "CONTENT_METADATA":{
+      "IMAP_GROUP_TITLE": "Données du mail"
+    },
+    "ACTIONS": {
+      "SEND_BY_MAIL": "Envoyer par mail"
+    },
+    "FORM": {
+      "TITLE": "Envoyer '{{ name }}' par mail",
+      "TITLE_ERROR": "Erreur",
+      "LABEL_TO" : "A",
+      "LABEL_TO_CC": "Cc",
+      "LABEL_TO_CCI": "Cci",
+      "LABEL_SUBJECT": "Sujet",
+      "LABEL_MESSAGE": "Message",
+      "LABEL_SHARED_LINK": "Lien de partage",
+      "LABEL_ATTACHMENT": "Ajouter le document en pièce jointe",
+      "ERROR_REQUIRED": "Vous devez remplir ce champ",
+      "ERROR_INVALID_EMAIL": "L'adresse mail n'est pas valide",
+      "ERROR_INVALID_NODE": "Le document n'existe pas !",
+      "ACTION_SEND": "Envoyer",
+      "ACTION_CANCEL": "Annuler",
+      "LABEL_TO": "À",
+      "NEW_RECIPIENT": "Nouvel email ...",
+      "REMOVE": "Supprimer"
+    }
+  }
+}

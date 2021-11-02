@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Send a mail</shortname>
+  <description>Send a mail with or without attachment</description>
+  <url>/fr/jeci/sendMail</url>
+  <format default="json">extension</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

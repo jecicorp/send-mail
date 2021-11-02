@@ -1,0 +1,79 @@
+<!-- Cas d'erreur -->
+<h2 mat-dialog-title *ngIf="!nodeExist">{{ 'APP.FORM.TITLE_ERROR' | translate }}</h2>
+<mat-dialog-content *ngIf="!nodeExist">{{ 'APP.FORM.ERROR_INVALID_NODE' | translate }}</mat-dialog-content>
+
+<h2 mat-dialog-title *ngIf="nodeExist">{{ title }}</h2>
+<mat-dialog-content *ngIf="nodeExist" [formGroup]="emailForm">
+  <mat-form-field class="adf-full-width">
+    <mat-label>{{ 'APP.FORM.LABEL_TO' | translate }}</mat-label>
+    <mat-chip-list #recipientsToList attr.aria-label="{{ 'APP.FORM.LABEL_TO' | translate }}" required formControlName="recipientsTo">
+      <mat-chip *ngFor="let recipient of recipientsTo" [selectable]="selectable" [removable]="removable" (removed)="removeRecipient('TO', recipient)">
+        {{ recipient }}
+        <mat-icon matChipRemove *ngIf=removable>cancel</mat-icon>
+      </mat-chip>
+      <input type="email" matInput
+              placeholder="{{ 'APP.FORM.NEW_RECIPIENT' | translate }}"
+              [matChipInputFor]="recipientsToList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addRecipient('TO', $event)">
+    </mat-chip-list>
+    <mat-error *ngIf="!emailForm.get('recipientsTo').hasError('required')">{{ 'APP.FORM.ERROR_REQUIRED' | translate }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="adf-full-width">
+    <mat-label>{{ 'APP.FORM.LABEL_TO_CC' | translate }}</mat-label>
+    <mat-chip-list #recipientsCcList attr.aria-label="{{ 'APP.FORM.LABEL_TO_CC' | translate }}" formControlName="recipientsCc">
+      <mat-chip *ngFor="let recipient of recipientsCc" [selectable]="selectable" [removable]="removable" (removed)="removeRecipient('CC', recipient)">
+        {{ recipient }}
+        <mat-icon matChipRemove *ngIf=removable>cancel</mat-icon>
+      </mat-chip>
+      <input matInput type="email"
+              placeholder="{{ 'APP.FORM.NEW_RECIPIENT' | translate }}"
+              [matChipInputFor]="recipientsCcList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addRecipient('CC', $event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field class="adf-full-width">
+    <mat-label>{{ 'APP.FORM.LABEL_TO_CCI' | translate }}</mat-label>
+    <mat-chip-list #recipientsCciList attr.aria-label="{{ 'APP.FORM.LABEL_TO_CCI' | translate }}" formControlName="recipientsCci">
+      <mat-chip *ngFor="let recipient of recipientsCci" [selectable]="selectable" [removable]="removable" (removed)="removeRecipient('CCI', recipient)">
+        {{ recipient }}
+        <mat-icon matChipRemove *ngIf=removable>cancel</mat-icon>
+      </mat-chip>
+      <input matInput type="email"
+              placeholder="{{ 'APP.FORM.NEW_RECIPIENT' | translate }}"
+              [matChipInputFor]="recipientsCciList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addRecipient('CCI', $event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field class="adf-full-width">
+    <mat-label>{{ 'APP.FORM.LABEL_SUBJECT' | translate }}</mat-label>
+    <input matInput required formControlName="object">
+    <mat-error *ngIf="!emailForm.get('object').hasError('required')">{{ 'APP.FORM.ERROR_REQUIRED' | translate }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="adf-full-width">
+    <mat-label>{{ 'APP.FORM.LABEL_MESSAGE' | translate }}</mat-label>
+    <textarea matInput required formControlName="message" rows="10"></textarea>
+    <mat-error *ngIf="!emailForm.get('message').hasError('required')">{{ 'APP.FORM.ERROR_REQUIRED' | translate }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="adf-full-width">
+    <mat-label>{{ 'APP.FORM.LABEL_SHARED_LINK' | translate }}</mat-label>
+    <input matInput [value]="shareLink" disabled>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="isAttachment">{{ 'APP.FORM.LABEL_ATTACHMENT' | translate }}</mat-checkbox>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="cancel()">{{ 'APP.FORM.ACTION_CANCEL' | translate }}</button>
+    <button class="mat-raised-button mat-primary" [disabled]="emailForm.invalid" (click)="sendMail()" *ngIf="nodeExist">{{ 'APP.FORM.ACTION_SEND' | translate }}</button>
+</mat-dialog-actions>

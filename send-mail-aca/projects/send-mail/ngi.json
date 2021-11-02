@@ -1,0 +1,20 @@
+{
+  "assets": [
+    {
+      "glob": "send-mail.plugin.json",
+      "input": "./assets",
+      "output": "./assets/plugins"
+    },
+    {
+      "glob": "**/*",
+      "input": "./assets",
+      "output": "./assets/send-mail"
+    }
+  ],
+  "modules": [
+    {
+      "name": "SendMailModule",
+      "namespace": "@jeci/send-mail"
+    }
+  ]
+}

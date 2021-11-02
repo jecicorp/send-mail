@@ -1,0 +1,36 @@
+.send-mail-recipients-icon {
+    color: rgba(0, 0, 0, 0.26);
+    cursor: pointer;
+}
+
+.send-mail-recipients-icon:hover {
+    color: black;
+}
+
+.cdk-global-overlay-wrapper {
+  pointer-events: auto;
+  display: block;
+  position: relative;
+  overflow: auto;
+  text-align: center;
+}
+
+.cdk-global-overlay-wrapper::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  white-space: nowrap;
+}
+
+.cdk-overlay-pane {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  white-space: normal;
+}
+
+.send-mail-form{
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}

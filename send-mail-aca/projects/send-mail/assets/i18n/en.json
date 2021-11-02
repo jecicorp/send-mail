@@ -1,0 +1,29 @@
+{
+  "APP": {
+    "CONTENT_METADATA":{
+      "IMAP_GROUP_TITLE": "Mail data"
+    },
+    "ACTIONS": {
+      "SEND_BY_MAIL": "Send by mail"
+    },
+    "FORM": {
+      "TITLE": "Send '{{ name }}' by mail",
+      "TITLE_ERROR": "Error",
+      "LABEL_TO" : "To",
+      "LABEL_TO_CC": "Cc",
+      "LABEL_TO_CCI": "Cci",
+      "LABEL_SUBJECT": "Subject",
+      "LABEL_MESSAGE": "Message",
+      "LABEL_SHARED_LINK": "Share link",
+      "LABEL_ATTACHMENT": "Add document as attachment",
+      "ERROR_REQUIRED": "You must enter a value",
+      "ERROR_INVALID_EMAIL": "Mail address invalid",
+      "ERROR_INVALID_NODE": "Node does not exist!",
+      "ACTION_SEND": "Send",
+      "ACTION_CANCEL": "Cancel",
+      "LABEL_TO": "TO",
+      "NEW_RECIPIENT": "New email...",
+      "REMOVE": "Remove"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$id": "send-mail",
+  "$name": "send-mail.plugin",
+  "$description": "Send Mail plugin",
+  "$vendor": "Jeci",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.10.0",
+  "actions": [
+    {
+      "id": "send-by-mail.plugin.actions.node",
+      "type": "SEND_BY_MAIL",
+      "payload": "$(context.selection.first.entry)"
+    }
+  ],
+  "features": {
+    "icons": [
+      {
+        "id": "adf:send_by_mail",
+        "value": "./assets/send-mail/images/send-by-mail.svg"
+      }
+    ],
+    "toolbar": [
+      {
+        "id": "app.toolbar.sendByMail",
+        "type": "button",
+        "order": 250,
+        "title": "APP.ACTIONS.SEND_BY_MAIL",
+        "icon": "adf:send_by_mail",
+        "actions": {
+          "click": "send-by-mail.plugin.actions.node"
+        },
+        "rules": {
+          "visible": "app.selection.file"
+        }
+      }
+    ],
+    "viewer": {
+      "toolbarActions": [
+        {
+          "id": "app.viewer.sendByMail",
+          "type": "button",
+          "order": 350,
+          "title": "APP.ACTIONS.SEND_BY_MAIL",
+          "icon": "adf:send_by_mail",
+          "actions": {
+            "click": "send-by-mail.plugin.actions.node"
+          },
+          "rules": {
+            "visible": "app.selection.file"
+          }
+        }
+      ]
+    },
+    "contextMenu": [
+      {
+        "id": "app.context.menu.sendByMail",
+        "type": "button",
+        "order": 250,
+        "title": "APP.ACTIONS.SEND_BY_MAIL",
+        "icon": "adf:send_by_mail",
+        "actions": {
+          "click": "send-by-mail.plugin.actions.node"
+        },
+        "rules": {
+          "visible": "app.selection.file"
+        }
+      }
+    ],
+    "content-metadata-presets": [
+      {
+        "id": "app.content.metadata.custom",
+        "custom": [
+          {
+            "id": "app.content.metadata.customSetting",
+            "includeAll": true,
+            "exclude": [
+              "rn:renditioned",
+              "cm:versionable",
+              "cm:auditable",
+              "cm:thumbnailModification",
+              "cm:content",
+              "cm:author",
+              "cm:titled",
+              "cm:generalclassifiable",
+              "cm:taggable",
+              "dp:restrictable",
+              "fm:commentsRollup",
+              "qshare:shared",
+              "exif:exif",
+              "cm:effectivity",
+              "cm:emailed",
+              "imap:imapContent",
+              "cm:likesRatingSchemeRollups",
+              "cm:lockable",
+              "cm:ownable"
+            ]
+          },
+          {
+            "id": "app.content.metadata.imapGroup",
+            "title": "APP.CONTENT_METADATA.IMAP_GROUP_TITLE",
+            "items": [
+              {
+                "id": "app.content.metadata.imapContentAspect",
+                "aspect": "imap:imapContent",
+                "properties": [
+                  "imap:messageTo",
+                  "imap:messageFrom",
+                  "imap:messageSubject",
+                  "imap:dateSent",
+                  "imap:dateReceived"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

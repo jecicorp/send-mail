@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# =-=            =-= #
+# =-= DahBox npm =-= #
+# =-=            =-= #
+
+# DAHBOX_VERSION=beta
+# DAHBOX_HOME=/home/cindy/Projets/bendoc/bendoc-front/.dahbox
+# DAHBOX_DATE=mar. 24 août 2021 10:16:29 CEST
+# DAHBOX_COMMAND=dahbox create npm --from node --tag 12.18.4-buster  USER_HOME_DIR=\$HOME --command npm
+# DAHBOX_SHA=5a99cd5f4456e0f2479ac269606fada5126186fe
+
+
+# 1. Check Image
+image_id=$(podman image ls --filter 'label=fr.jeci.dahbox.name=npm' --filter 'label=fr.jeci.dahbox.sha=5a99cd5f4456e0f2479ac269606fada5126186fe' --noheading --quiet)
+
+# 2. Build Image
+if [[ -z "$image_id" ]]; then
+  echo "=-= DahBox Build npm =-="
+  container=$(buildah from docker.io/node:12.18.4-buster)
+  
+  
+
+  ## Include some buildtime annotations
+  buildah config --label "fr.jeci.dahbox.name=npm" "$container"
+  buildah config --label "fr.jeci.dahbox.from=docker.io/node:12.18.4-buster" "$container"
+  buildah config --label "fr.jeci.dahbox.sha=5a99cd5f4456e0f2479ac269606fada5126186fe" "$container"
+  buildah commit "$container" "dahbox/npm:5a99cd5f4456e0f2479ac269606fada5126186fe"
+  echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+fi
+
+export PODMAN_USERNS=keep-id
+
+# 3. Run container
+podman run --rm \
+  -e HOME \
+  -v "$HOME:$HOME" -w "$PWD" \
+  --init -it --net host --security-opt label=type:container_runtime_t  \
+  "dahbox/npm:5a99cd5f4456e0f2479ac269606fada5126186fe" npm "$@"

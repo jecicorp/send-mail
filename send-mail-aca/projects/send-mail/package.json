@@ -1,0 +1,22 @@
+{
+  "name": "@jeci/send-mail",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@alfresco/adf-core": "4.2.0",
+    "@alfresco/js-api": "4.2.0",
+    "@angular/cdk": "^10.0.2",
+    "@angular/core": "10.0.4",
+    "@angular/forms": "10.0.4",
+    "@angular/material": "^10.0.2",
+    "@angular/platform-browser": "10.0.4",
+    "@ngrx/effects": "^9.2.0",
+    "@ngrx/store": "^9.2.0",
+    "@ngx-translate/core": "^13.0.0",
+    "rxjs": "^6.6.3"
+  },
+  "alfresco": {
+    "extension": "assets/send-mail.plugin.json",
+    "module": "SendMailModule",
+    "namespace": "send-mail"
+  }
+}

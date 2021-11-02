@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# =-=            =-= #
+# =-= DahBox mvn =-= #
+# =-=            =-= #
+
+# DAHBOX_VERSION=beta
+# DAHBOX_HOME=/home/jlesage/Projets/Bendoc/alfresco-eml-transformer/.dahbox
+# DAHBOX_DATE=mar. 05 oct. 2021 21:03:11 CEST
+# DAHBOX_COMMAND=dahbox create mvn --from openjdk --tag 18-jdk-alpine  USER_HOME_DIR=\$HOME --command "mvn -Duser.home=\$HOME" --no-entrypoint --install-cmd "apk add" --update maven docker
+# DAHBOX_SHA=7162406d2af505ca72370b2c322966c2a6583115
+
+
+# 1. Check Image
+image_id=$(podman image ls --filter 'label=fr.jeci.dahbox.name=mvn' --filter 'label=fr.jeci.dahbox.sha=7162406d2af505ca72370b2c322966c2a6583115' --noheading --quiet)
+
+# 2. Build Image
+if [[ -z "$image_id" ]]; then
+  echo "=-= DahBox Build mvn =-="
+  container=$(buildah from docker.io/openjdk:18-jdk-alpine)
+  
+  buildah run "$container" -- apk add --update maven docker
+
+  ## Include some buildtime annotations
+  buildah config --label "fr.jeci.dahbox.name=mvn" "$container"
+  buildah config --label "fr.jeci.dahbox.from=docker.io/openjdk:18-jdk-alpine" "$container"
+  buildah config --label "fr.jeci.dahbox.sha=7162406d2af505ca72370b2c322966c2a6583115" "$container"
+  buildah commit "$container" "dahbox/mvn:7162406d2af505ca72370b2c322966c2a6583115"
+  echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+fi
+
+export PODMAN_USERNS=keep-id
+
+# 3. Run container
+podman run --rm \
+  -e USER_HOME_DIR=$HOME \
+  -v "$HOME:$HOME" -w "$PWD" \
+  --init -it --net host --security-opt label=type:container_runtime_t --entrypoint "" \
+  "dahbox/mvn:7162406d2af505ca72370b2c322966c2a6583115" mvn -Duser.home=$HOME "$@"

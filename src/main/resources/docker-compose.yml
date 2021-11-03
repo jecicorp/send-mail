@@ -32,7 +32,7 @@ services:
       dockerfile: ./Dockerfile
       context: ../../send-mail-aca-docker/target
       args:
-        TOKEN_API: ${TOKEN_API}
+        PRIVATE_TOKEN: ${PRIVATE_TOKEN}
         GITLAB_API: ${GITLAB_API}
     environment:
       BASE_PATH: ./

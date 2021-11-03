@@ -13,6 +13,7 @@
   },
   "private": true,
   "dependencies": {
+    "@alfresco/aca-shared": "^2.0.1",
     "@alfresco/adf-core": "4.2.0",
     "@alfresco/adf-extensions": "4.2.0",
     "@alfresco/js-api": "4.2.0",

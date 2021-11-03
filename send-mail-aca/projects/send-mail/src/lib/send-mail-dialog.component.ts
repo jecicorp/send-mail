@@ -164,7 +164,7 @@ export class SendMailDialogComponent implements OnInit {
     //http(s)://(host):(port)/(contextPath)/(servicePath)/(scriptPath)?(scriptArgs)
     this.apiService.getInstance().webScript.executeWebScript(
       'POST',
-      '/fr/jeci/send-mail/sendMail',
+      '/fr/jeci/sendMail',
       params,
       'alfresco',
       'service'

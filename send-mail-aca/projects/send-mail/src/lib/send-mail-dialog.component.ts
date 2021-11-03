@@ -17,7 +17,8 @@
  */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatChipInputEvent } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 

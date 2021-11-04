@@ -10,14 +10,14 @@
   <parent>
     <groupId>fr.jeci.alfresco</groupId>
     <artifactId>send-mail</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
 
   <dependencies>
     <dependency>
       <groupId>fr.jeci.alfresco</groupId>
       <artifactId>send-mail-platform</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
 

@@ -51,6 +51,7 @@ public class SendMail extends DeclarativeWebScript {
   private ContentService contentService;
   private MimetypeService mimetypeService;
   private String headerEncoding;
+  private String fromAddress;
 
   protected Map<String, Object> executeImpl(WebScriptRequest req, Status status, Cache cache) {
     Map<String, Object> model = new HashMap<String, Object>();
@@ -121,16 +122,14 @@ public class SendMail extends DeclarativeWebScript {
         messageRef.setBcc(bcc.split(";"));
       }
 
-      // Set from user
-      String currentUserName = authenticationService.getCurrentUserName();
-      NodeRef fromPerson = personService.getPerson(currentUserName);
-      String fromActualUser = (String) nodeService.getProperty(fromPerson, ContentModel.PROP_EMAIL);
-      if (logger.isDebugEnabled()) {
-        logger.debug("Param from : " + fromActualUser);
-      }
-      if (fromActualUser != null && fromActualUser.length() != 0) {
-        messageRef.setFrom(fromActualUser);
-      }
+      // Set from sender
+			String from = fromAddress;
+			if (logger.isDebugEnabled()) {
+				logger.debug("Param from : " + from);
+			}
+			if (from != null && from.length() != 0) {
+				messageRef.setFrom(from);
+			}
 
       // Set subject
       if (logger.isDebugEnabled()) {

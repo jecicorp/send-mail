@@ -42,5 +42,8 @@
     <property name="headerEncoding">
       <value>${mail.header}</value>
     </property>
+    <property name="fromAddress">
+			<value>${mail.from.default}</value>
+		</property>
   </bean>
 </beans>

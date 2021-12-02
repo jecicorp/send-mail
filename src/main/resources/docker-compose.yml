@@ -79,11 +79,21 @@ services:
     networks:
       - backend
 
+  ${smtp.host}:
+    image: munkyboy/fakesmtp
+    ports:
+      - "2525:25"
+    volumes:
+      - send-mail-smtp-volume:/var/mail
+    networks:
+      - backend
+
 volumes:
   send-mail-acs-volume:
   send-mail-db-volume:
   send-mail-contentstore-ass-volume:
   send-mail-data-ass-volume:
+  send-mail-smtp-volume:
 
 networks:
   backend:

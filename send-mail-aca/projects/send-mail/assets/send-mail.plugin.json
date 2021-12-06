@@ -1,6 +1,6 @@
 {
   "$schema": "../../../extension.schema.json",
-  "$version": "1.0.0",
+  "$version": "1.1.0",
   "$id": "send-mail",
   "$name": "send-mail.plugin",
   "$description": "Send Mail plugin",

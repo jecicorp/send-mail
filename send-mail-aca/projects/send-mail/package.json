@@ -1,6 +1,6 @@
 {
   "name": "@jeci/send-mail",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "peerDependencies": {
     "@alfresco/adf-core": "4.2.0",
     "@alfresco/js-api": "4.2.0",

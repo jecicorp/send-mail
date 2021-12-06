@@ -142,6 +142,17 @@ public class SendMail extends DeclarativeWebScript {
         logger.debug("Param Text : " + req.getParameter(PARAM_MESSAGE));
       }
       messageRef.setText(req.getParameter(PARAM_MESSAGE), true);
+      
+      // Set reply-to
+      String currentUserName = authenticationService.getCurrentUserName();
+      NodeRef fromPerson = personService.getPerson(currentUserName);
+      String ReplyToActualUser = (String) nodeService.getProperty(fromPerson, ContentModel.PROP_EMAIL);
+      if (logger.isDebugEnabled()) {
+        logger.debug("Param reply-to : " + ReplyToActualUser);
+      }
+      if (ReplyToActualUser != null && ReplyToActualUser.length() != 0) {
+        messageRef.setReplyTo(ReplyToActualUser);
+      }
 
       if (isAttachment) {
         NodeRef document = new NodeRef(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE, req.getParameter(PARAM_NODEID));
@@ -274,4 +285,17 @@ public class SendMail extends DeclarativeWebScript {
     this.mimetypeService = mimetypeService;
   }
 
+  /**
+   * @return the fromAddress
+   */
+  public String getFromAddress() {
+    return fromAddress;
+  }
+
+  /**
+   * @param fromAddress the fromAddress to set
+   */
+  public void setFromAddress(String fromAddress) {
+    this.fromAddress = fromAddress;
+  }
 }

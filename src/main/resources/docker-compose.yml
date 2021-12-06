@@ -46,6 +46,7 @@ services:
       NOTIFICATION_LAST: 2000
       AUTH_TYPE: BASIC
       PROVIDERS: ALL
+      
     ports:
       - "${public.port}:8080"
     depends_on:

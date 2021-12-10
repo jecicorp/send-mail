@@ -114,7 +114,18 @@ public class SendMail extends DeclarativeWebScript {
 			messageRef.setSubject(req.getParameter(PARAM_OBJECT));
 
 			// Set message
-			messageRef.setText(req.getParameter(PARAM_MESSAGE), true);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Param Text : " + req.getParameter(PARAM_MESSAGE));
+			}
+			String finMessage = "Ce mail a été généré depuis le serveur Pristy, copyright, disclaimer, Cordialement.";
+			StringBuilder str = new StringBuilder();
+			str.append(req.getParameter(PARAM_MESSAGE));
+			str.append("\n");
+			str.append(finMessage);
+			str.append("\n");
+			str.append("Pristy");
+			messageRef.setText(str.toString(), false);
+			
 
 			// Set reply-to
 			String currentUserName = authenticationService.getCurrentUserName();

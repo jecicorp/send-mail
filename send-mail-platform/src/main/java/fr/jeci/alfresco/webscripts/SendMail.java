@@ -1,6 +1,5 @@
 package fr.jeci.alfresco.webscripts;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -25,7 +24,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.extensions.webscripts.Cache;
 import org.springframework.extensions.webscripts.DeclarativeWebScript;
 import org.springframework.extensions.webscripts.Status;
@@ -54,8 +52,9 @@ public class SendMail extends DeclarativeWebScript {
 	private String headerEncoding;
 	private String fromAddress;
 
+	@Override
 	protected Map<String, Object> executeImpl(WebScriptRequest req, Status status, Cache cache) {
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 
 		try {
 			// Prepare message
@@ -80,80 +79,49 @@ public class SendMail extends DeclarativeWebScript {
 	 * @throws MessagingException
 	 */
 	private MimeMessageHelper prepareEmail(WebScriptRequest req) throws MessagingException {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Préparation du mail");
-		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Param isAttachment : " + req.getParameter(PARAM_IS_ATTACHMENT));
-		}
 		boolean isAttachment = Boolean.parseBoolean(req.getParameter(PARAM_IS_ATTACHMENT));
 
 		MimeMessage mimeMessage = mailService.createMimeMessage();
 		MimeMessageHelper messageRef = new MimeMessageHelper(mimeMessage, isAttachment);
 		try {
 			// set header encoding if one has been supplied
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param header : " + headerEncoding);
-			}
-			if (StringUtils.isNotBlank(headerEncoding) && headerEncoding.length() != 0) {
+			if (StringUtils.isNotBlank(headerEncoding)) {
 				mimeMessage.setHeader("Content-Transfer-Encoding", headerEncoding);
 			}
 
 			// Set Recipients
 			String to = req.getParameter(PARAM_RECIPIENTS);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param TO : " + to);
-			}
-			if (StringUtils.isNotBlank(to) && to.length() != 0) {
+			if (StringUtils.isNotBlank(to)) {
 				messageRef.setTo(to.split(";"));
 			}
 
 			String cc = req.getParameter(PARAM_RECIPIENTS_IN_COPY);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param CC : " + cc);
-			}
-			if (StringUtils.isNotBlank(cc) && cc.length() != 0) {
+			if (StringUtils.isNotBlank(cc)) {
 				messageRef.setCc(cc.split(";"));
 			}
 			String bcc = req.getParameter(PARAM_RECIPIENTS_IN_HIDDEN_COPY);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param BCC : " + bcc);
-			}
-			if (StringUtils.isNotBlank(bcc) && bcc.length() != 0) {
+			if (StringUtils.isNotBlank(bcc)) {
 				messageRef.setBcc(bcc.split(";"));
 			}
 
 			// Set from sender
-
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param from : " + fromAddress);
-			}
-			if (StringUtils.isNotBlank(fromAddress) && fromAddress.length() != 0) {
+			if (StringUtils.isNotBlank(fromAddress)) {
 				messageRef.setFrom(fromAddress);
 			}
 
 			// Set subject
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param Subject : " + req.getParameter(PARAM_OBJECT));
-			}
 			messageRef.setSubject(req.getParameter(PARAM_OBJECT));
 
 			// Set message
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param Text : " + req.getParameter(PARAM_MESSAGE));
-			}
 			messageRef.setText(req.getParameter(PARAM_MESSAGE), true);
 
 			// Set reply-to
 			String currentUserName = authenticationService.getCurrentUserName();
 			NodeRef fromPerson = personService.getPerson(currentUserName);
-			String ReplyToActualUser = (String) nodeService.getProperty(fromPerson, ContentModel.PROP_EMAIL);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Param reply-to : " + ReplyToActualUser);
-			}
-			if (StringUtils.isNotBlank(ReplyToActualUser) && ReplyToActualUser.length() != 0) {
-				messageRef.setReplyTo(ReplyToActualUser);
+			String replyToActualUser = (String) nodeService.getProperty(fromPerson, ContentModel.PROP_EMAIL);
+			if (StringUtils.isNotBlank(replyToActualUser) && replyToActualUser.length() != 0) {
+				messageRef.setReplyTo(replyToActualUser);
 			}
 
 			if (isAttachment) {

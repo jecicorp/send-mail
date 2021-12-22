@@ -73,7 +73,7 @@ public class SendMail extends DeclarativeWebScript {
 
 	/**
 	 * Préparation du mail
-	 * 
+	 *
 	 * @param req
 	 * @return
 	 * @throws MessagingException
@@ -117,15 +117,14 @@ public class SendMail extends DeclarativeWebScript {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Param Text : " + req.getParameter(PARAM_MESSAGE));
 			}
-			String finMessage = "Ce mail a été généré depuis le serveur Pristy, copyright, disclaimer, Cordialement.";
+			String finMessage = "<p>Ce message a été envoyé automatiquement depuis la plateforme Pristy.</br><a href=\"https://pristy.fr/fr/\">Pristy.net</a>, la GED en ligne libre.</p>";
 			StringBuilder str = new StringBuilder();
+			str.append("<p>");
 			str.append(req.getParameter(PARAM_MESSAGE));
-			str.append("\n");
+			str.append("</p>");
+			str.append("</br>");
 			str.append(finMessage);
-			str.append("\n");
-			str.append("Pristy");
-			messageRef.setText(str.toString(), false);
-			
+			messageRef.setText(str.toString(), true);
 
 			// Set reply-to
 			String currentUserName = authenticationService.getCurrentUserName();

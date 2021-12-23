@@ -23,7 +23,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
+import { TranslationService, AlfrescoApiService, AuthenticationService } from '@alfresco/adf-core';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'sendByMail-dialog',
@@ -32,6 +33,7 @@ import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 })
 export class SendMailDialogComponent implements OnInit {
 
+  messageTemplate: string;
   title: string;
   shareLink: string;
   node: MinimalNodeEntryEntity;
@@ -52,6 +54,7 @@ export class SendMailDialogComponent implements OnInit {
     private translationService: TranslationService,
     private apiService: AlfrescoApiService,
     private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
     @Inject(MAT_DIALOG_DATA) data) {
     this.node = data.node;
     if (this.node) {
@@ -62,6 +65,11 @@ export class SendMailDialogComponent implements OnInit {
       );
       this.shareLink = data.baseShareUrl + data.sharedId;
     }
+
+    var currentUser: string = authService.getEcmUsername();
+    this.messageTemplate = "Bonjour,\n\n" + currentUser + " vient de partager un fichier avec vous depuis sa GED Pristy. Vous pouvez y accéder grâce au lien ci-dessous : \n";
+    this.messageTemplate = this.messageTemplate + this.shareLink;
+    this.messageTemplate = this.messageTemplate + "\n\nBonne journée.";
   }
 
   ngOnInit() {

@@ -61,7 +61,7 @@
 
   <mat-form-field class="adf-full-width">
     <mat-label>{{ 'APP.FORM.LABEL_MESSAGE' | translate }}</mat-label>
-    <textarea matInput required formControlName="message" rows="10"></textarea>
+    <textarea matInput required formControlName="message" rows="10" [(ngModel)]="messageTemplate" ></textarea>
     <mat-error *ngIf="!emailForm.get('message').hasError('required')">{{ 'APP.FORM.ERROR_REQUIRED' | translate }}</mat-error>
   </mat-form-field>
 

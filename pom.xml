@@ -60,7 +60,7 @@
 
     <!-- Smtp Config -->
      <smtp.host>send-mail-fakesmtp</smtp.host>
-     
+
     <!-- This parameter is only required for those cases in which ACS is not exposed in http://localhost:8080/alfresco (i.e. Windows Docker) -->
     <test.acs.endpoint.path></test.acs.endpoint.path>
   </properties>
@@ -431,19 +431,26 @@
       </snapshots>
     </repository>
     <repository>
-      <id>gitlab-maven</id>
-      <url>https://gitlab.beezim.fr/api/v4/projects/478/packages/maven</url>
+      <id>pristy-releases</id>
+      <url>https://nexus.jeci.tech/repository/pristy-releases/</url>
+    </repository>
+    <repository>
+      <id>pristy-snapshots</id>
+      <url>https://nexus.jeci.tech/repository/pristy-snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
 
   <distributionManagement>
     <repository>
-      <id>gitlab-maven</id>
-      <url>https://gitlab.beezim.fr/api/v4/projects/478/packages/maven</url>
+      <id>pristy-releases</id>
+      <url>https://nexus.jeci.tech/repository/pristy-releases/</url>
     </repository>
     <snapshotRepository>
-      <id>gitlab-maven</id>
-      <url>https://gitlab.beezim.fr/api/v4/projects/478/packages/maven</url>
+      <id>pristy-snapshots</id>
+      <url>https://nexus.jeci.tech/repository/pristy-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 

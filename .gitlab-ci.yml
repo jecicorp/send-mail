@@ -1,6 +1,5 @@
 ---
 stages:
-  - build
   - deploy
 
 default:
@@ -24,22 +23,15 @@ cache:
   paths:
     - .m2/repository
 
-default:
-  before_script:
-    - export NPM_ATUH=(echo -n "$NEXUS_USERNAME:$NEXUS_PASSWORD" | openssl base64)
-    - echo "registry=https://nexus.jeci.tech/repository/npm-public/" > .npmrc
-    - echo "_auth=${NPM_ATUH}" >> .npmrc
-
-maven-build:
-  stage: build
-  script:
-    - mvn $MAVEN_CLI_OPTS clean package
-  artifacts:
-    paths:
-      - "**/target/*.jar"
-      - "**/target/*.tgz"
-
 maven-deploy:
   stage: deploy
   script:
+    - source ${NEXUS_SECRET_FILE}
     - mvn $MAVEN_CLI_OPTS deploy
+  artifacts:
+    paths:
+      - "**/target/*.jar"
+      - "**/target/*.amp"
+      - "**/target/*.tgz"
+  except:
+    - tags

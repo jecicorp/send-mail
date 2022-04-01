@@ -23,8 +23,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { TranslationService, AlfrescoApiService, AuthenticationService } from '@alfresco/adf-core';
-import { tap } from 'rxjs/operators';
+import { TranslationService, AlfrescoApiService, EcmUserService, EcmUserModel } from '@alfresco/adf-core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sendByMail-dialog',
@@ -54,7 +54,7 @@ export class SendMailDialogComponent implements OnInit {
     private translationService: TranslationService,
     private apiService: AlfrescoApiService,
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
+    private ecmUserService: EcmUserService,
     @Inject(MAT_DIALOG_DATA) data) {
     this.node = data.node;
     if (this.node) {
@@ -65,14 +65,18 @@ export class SendMailDialogComponent implements OnInit {
       );
       this.shareLink = data.baseShareUrl + data.sharedId;
     }
-
-    var currentUser: string = authService.getEcmUsername();
-    this.messageTemplate = "Bonjour,\n\n" + currentUser + " vient de partager un fichier avec vous depuis sa GED Pristy. Vous pouvez y accéder grâce au lien ci-dessous : \n";
-    this.messageTemplate = this.messageTemplate + this.shareLink;
-    this.messageTemplate = this.messageTemplate + "\n\nBonne journée.";
   }
 
   ngOnInit() {
+    // Construction du message template
+    this.ecmUserService.getCurrentUserInfo().subscribe((user) => {
+      this.messageTemplate = "Bonjour,\n\n";
+      this.messageTemplate += user.firstName + " " + user.lastName + " vient de partager un fichier avec vous depuis sa GED Pristy.";
+      this.messageTemplate += "Vous pouvez y accéder grâce au lien ci-dessous : \n";
+      this.messageTemplate += this.shareLink;
+      this.messageTemplate += "\n\nCordialement";
+    });
+
     // Initialisation Formulaire
     this.emailForm = this.formBuilder.group({
       recipientsTo: [[], Validators.required],
@@ -80,8 +84,8 @@ export class SendMailDialogComponent implements OnInit {
       recipientsCci: [],
       object: ['', Validators.required],
       message: ['', Validators.required],
-      isAttachment: [],
-    })
+      isAttachment: []
+    });
   }
 
   private getListRecipients(typeRecipient: string) {
@@ -121,7 +125,6 @@ export class SendMailDialogComponent implements OnInit {
       const newValue = value.trim();
       const emailValid = this.isEmailValid(newValue);
       if (emailValid) {
-        console.log("ADD : " + value.trim());
         this.getListRecipients(typeRecipient).push(newValue);
 
         // Reset la valeur du champ
@@ -156,20 +159,9 @@ export class SendMailDialogComponent implements OnInit {
       message: this.emailForm.value['message'],
       nodeId: this.node.id,
       isAttachment: this.emailForm.value['isAttachment'] ? this.emailForm.value['isAttachment'] : false
-    }
-    console.log("Récupération des paramètres");
-    console.log("recipients : " + params.recipients);
-    console.log("recipients in copy : " + params.recipientsInCopy);
-    console.log("recipients in hidden copy : " + params.recipientsInHiddenCopy);
-    console.log("object : " + params.object);
-    console.log("message : " + params.message);
-    console.log("nodeId : " + params.nodeId);
-    console.log("isAttachment : " + params.isAttachment);
+    };
 
     // Envoyer le mail - Appel du webservice
-
-    //executeWebScript(httpMethod?: string, scriptPath?: string, scriptArgs?: any, contextRoot?: string, servicePath?: string, postBody?: string): Promise<{}>;
-    //http(s)://(host):(port)/(contextPath)/(servicePath)/(scriptPath)?(scriptArgs)
     this.apiService.getInstance().webScript.executeWebScript(
       'POST',
       '/fr/jeci/sendMail',

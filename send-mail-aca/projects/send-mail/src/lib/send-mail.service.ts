@@ -20,7 +20,6 @@ export class SendMailService {
     // Get or create the id for the link share
     const sharedId = await this.getShareId(node);
 
-    console.log("Document à envoyer par mail");
     this.store.select(getSharedUrl).pipe(take(1)).subscribe(baseShareUrl => {
       this.dialogRef.open(SendMailDialogComponent, {
         disableClose: true,

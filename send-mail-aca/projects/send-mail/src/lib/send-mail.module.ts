@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { SendMailComponent } from './send-mail.component';
 import { SendMailEffects } from './effects/send-mail.effects';
 import { SendMailService } from './send-mail.service';
 import { SendMailDialogComponent } from './send-mail-dialog.component';
@@ -18,7 +17,7 @@ import { SendMailDialogComponent } from './send-mail-dialog.component';
 import { TranslationService, PipeModule } from '@alfresco/adf-core';
 
 @NgModule({
-  declarations: [SendMailComponent, SendMailDialogComponent],
+  declarations: [SendMailDialogComponent],
   imports: [
     EffectsModule.forFeature([SendMailEffects]),
     BrowserModule,
@@ -33,7 +32,7 @@ import { TranslationService, PipeModule } from '@alfresco/adf-core';
     PipeModule,
     TranslateModule.forRoot()
   ],
-  exports: [SendMailComponent],
+  exports: [],
   providers: [SendMailService],
   entryComponents: [SendMailDialogComponent]
 })
